@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>The Board — Horsens</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="dtop">
+        <div class="brand">The Board</div>
+        <nav class="dnav" aria-label="Main">
+          <button class="tab on" data-v="map">Map</button
+          ><button class="tab" data-v="board">Play</button
+          ><button class="tab" data-v="people">People &amp; teams</button
+          ><button class="tab" data-v="chat">Chat</button
+          ><button class="tab" data-v="rent">Rent</button>
+        </nav>
+        <button class="tab cta" data-v="create">+ Create event</button
+        ><button class="bal" data-v="wallet">0 kr</button>
+      </header>
+
+      <header class="top">
+        <div>
+          <div class="loc">Play near you</div>
+          <div class="city">Horsens</div>
+        </div>
+        <div class="hr">
+          <button class="icb" data-v="people" aria-label="Players and teams">
+            <svg
+              viewBox="0 0 24 24"
+              width="22"
+              height="22"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.9"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="9" cy="8" r="3.2" />
+              <path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5" />
+              <path d="M16 5.3a3 3 0 0 1 0 5.4M18 14.8c1.8.7 3 2.3 3 5.2" />
+            </svg></button
+          ><button class="bal" data-v="wallet" id="bal"></button>
+        </div>
+      </header>
+
+      <section class="view on" id="v-map">
+        <div class="hero">
+          <h1>Find a game, a place or a team in Horsens.</h1>
+          <p>
+            See what is on around you, join in one click, and rent the gear on
+            the spot.
+          </p>
+        </div>
+        <div
+          id="map"
+          class="mapbox"
+          role="application"
+          aria-label="Interactive map of Horsens"
+        ></div>
+        <p class="hint">
+          Tap a pin to see what's on and what you can rent there. Drag to move,
+          pinch or scroll to zoom.
+        </p>
+        <div class="sheet" id="sheet"></div>
+      </section>
+
+      <section class="view" id="v-board">
+        <h2>All activities</h2>
+        <p class="w">Everything happening right now, and where.</p>
+        <div class="filters" id="filters"></div>
+        <div id="list"></div>
+      </section>
+
+      <section class="view" id="v-create">
+        <h2>Make your own event</h2>
+        <p class="w">
+          Pick a place and a date, and it appears on the map and the board.
+        </p>
+        <div class="box">
+          <div class="form">
+            <div>
+              <label for="c-t">What is it?</label
+              ><input id="c-t" placeholder="e.g. Sunday morning football" />
+            </div>
+            <div class="g2">
+              <div>
+                <label for="c-ty">Type</label
+                ><select id="c-ty">
+                  <option>Football</option>
+                  <option>Padel</option>
+                  <option>Running</option>
+                  <option>Study</option>
+                  <option>Basketball</option>
+                  <option>Beach volley</option>
+                  <option>Climbing</option>
+                  <option>Fitness</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div>
+                <label for="c-p">Where</label
+                ><select id="c-p"></select>
+              </div>
+            </div>
+            <div class="g2">
+              <div>
+                <label for="c-d">Date</label><input type="date" id="c-d" />
+              </div>
+              <div>
+                <label for="c-h">Time</label
+                ><input type="time" id="c-h" value="17:00" />
+              </div>
+            </div>
+            <div>
+              <label for="c-n">Total spots</label
+              ><input type="number" id="c-n" min="2" max="30" value="8" />
+            </div>
+            <button class="btn" data-a="create">Publish event</button>
+          </div>
+          <div class="ok" id="c-ok"></div>
+        </div>
+      </section>
+
+      <section class="view" id="v-people">
+        <h2>Find people</h2>
+        <p class="w">
+          Search by name, sport or level, then add them to a team.
+        </p>
+        <input
+          id="p-q"
+          placeholder="Search: padel, beginner, Mads…"
+          aria-label="Search people"
+          style="margin-bottom: 12px"
+        />
+        <div id="plist"></div>
+        <h3>Teams</h3>
+        <div class="box">
+          <div class="send">
+            <input id="t-n" placeholder="New team name" /><button
+              class="btn"
+              data-a="team"
+            >
+              Create
+            </button>
+          </div>
+          <div style="margin-top: 10px">
+            <label for="t-sel">Add people to</label
+            ><select id="t-sel"></select>
+          </div>
+          <div class="ok" id="t-ok"></div>
+        </div>
+        <div id="tlist"></div>
+      </section>
+
+      <section class="view" id="v-chat">
+        <h2>Chat &amp; forums</h2>
+        <p class="w" id="topic"></p>
+        <div class="filters" id="rooms"></div>
+        <div class="msgs" id="msgs" aria-live="polite"></div>
+        <div class="send">
+          <input
+            id="m-in"
+            placeholder="Write a message…"
+            aria-label="Message"
+          /><button class="btn" data-a="send">Send</button>
+        </div>
+      </section>
+
+      <section class="view" id="v-rent">
+        <h2>Rent gear</h2>
+        <p class="w">
+          Balls and padel gear. Pay in the app, go to the Opportunity Box, and a
+          locker opens.
+        </p>
+        <div class="w">
+          Credit: <b class="balv"></b> ·
+          <button class="link" data-v="wallet">Add credit</button>
+        </div>
+        <div class="ok" id="r-ok"></div>
+        <div id="active"></div>
+        <div id="items"></div>
+      </section>
+
+      <section class="view" id="v-wallet">
+        <h2>Wallet</h2>
+        <p class="w">
+          Demo mode: no real payment is made and no bank account is linked.
+        </p>
+        <div class="box">
+          <div class="w">Available credit</div>
+          <div class="big" id="w-bal"></div>
+          <div class="w" id="w-dep"></div>
+          <div style="margin-top: 12px">
+            <button class="btn" data-a="topen">Add credit</button>
+          </div>
+        </div>
+        <div class="ok" id="w-ok"></div>
+        <div class="box" id="topup" hidden>
+          <h3 style="margin-top: 0">Add credit</h3>
+          <div class="filters" id="t-amts"></div>
+          <label for="t-c">Or enter an amount (10-1000 kr)</label
+          ><input
+            type="number"
+            id="t-c"
+            min="10"
+            max="1000"
+            placeholder="e.g. 150"
+          />
+          <h3>Pay with</h3>
+          <div class="filters" id="t-ms"></div>
+          <div class="w" id="t-sum"></div>
+          <div class="send" style="margin-top: 12px">
+            <button class="btn" data-a="tpay" id="t-pay">Pay</button
+            ><button class="btn alt" data-a="tclose">Cancel</button>
+          </div>
+        </div>
+        <h3>History</h3>
+        <div class="box" id="txs"></div>
+      </section>
+      <footer>A pretotype — nothing here is booked or charged for real.</footer>
+    </div>
+    <nav class="bnav" aria-label="Main">
+      <button class="tab on" data-v="map">
+        <svg
+          viewBox="0 0 24 24"
+          width="22"
+          height="22"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.9"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z" />
+          <circle cx="12" cy="9.5" r="2.5" /></svg
+        ><span>Map</span>
+      </button>
+      <button class="tab" data-v="board">
+        <svg
+          viewBox="0 0 24 24"
+          width="22"
+          height="22"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.9"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 7.5l3.8 2.8-1.4 4.5H9.6l-1.4-4.5z" /></svg
+        ><span>Play</span>
+      </button>
+      <button class="tab fab" data-v="create" aria-label="Create event">
+        <svg
+          viewBox="0 0 24 24"
+          width="22"
+          height="22"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.9"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M12 5v14M5 12h14" />
+        </svg>
+      </button>
+      <button class="tab" data-v="rent">
+        <svg
+          viewBox="0 0 24 24"
+          width="22"
+          height="22"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.9"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <rect x="3.5" y="4" width="17" height="16" rx="2.5" />
+          <path d="M3.5 12h17M8 8h2M8 16h2" /></svg
+        ><span>Rent</span>
+      </button>
+      <button class="tab" data-v="chat">
+        <svg
+          viewBox="0 0 24 24"
+          width="22"
+          height="22"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.9"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path
+            d="M20 12a8 8 0 0 1-11.7 7L4 20l1.1-4.1A8 8 0 1 1 20 12z"
+          /></svg
+        ><span>Chat</span>
+      </button>
+    </nav>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
