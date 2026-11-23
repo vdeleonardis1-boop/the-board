@@ -229,14 +229,14 @@ const acts = [
 ];
 
 const items = [
-  { id: "ball", n: "Football", pl: "campus", price: 20, dep: 50, stock: 3 },
-  { id: "bball", n: "Basketball", pl: "campus", price: 20, dep: 50, stock: 3 },
+  { id: "ball", n: "Football", pl: "campus", price: 20, dep: 60, stock: 3 },
+  { id: "bball", n: "Basketball", pl: "campus", price: 20, dep: 60, stock: 3 },
   {
     id: "vball",
     n: "Beach volleyball",
     pl: "beach",
     price: 20,
-    dep: 50,
+    dep: 60,
     stock: 3,
   },
   {
@@ -244,12 +244,12 @@ const items = [
     n: "Mini-football",
     pl: "beach",
     price: 20,
-    dep: 50,
+    dep: 60,
     stock: 2,
   },
-  { id: "rack", n: "Padel racket", pl: "padel", price: 30, dep: 100, stock: 4 },
+  { id: "rack", n: "Padel racket", pl: "padel", price: 30, dep: 200, stock: 4 },
   
-  { id: "ball2", n: "Football", pl: "park", price: 20, dep: 50, stock: 2 },
+  { id: "ball2", n: "Football", pl: "park", price: 20, dep: 60, stock: 2 },
 ];
 
 const people = [
