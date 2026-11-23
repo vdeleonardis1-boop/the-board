@@ -122,3 +122,19 @@ footer{margin-top:24px;font-size:.75rem;color:var(--mut);text-align:center}
 /* presentation style: serif headings + orange brush accent */
 .city,h2,.hero h1,.brand,.big{font-family:var(--serif);font-weight:800}
 .hero h1::after{content:'';display:block;width:120px;height:6px;border-radius:6px;background:var(--lime);margin-top:12px}
+
+/* home, pick bar, ads, links */
+.acts3{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0 6px}
+.big3{background:var(--pri);color:var(--pri-ink);border:none;border-radius:18px;padding:16px 18px;text-align:left;cursor:pointer;font:inherit}
+.big3 b{display:block;font-size:1.1rem}.big3 span{font-size:.85rem;opacity:.85}
+.big3.o{background:var(--lime);color:var(--lime-ink)}.big3.m{background:var(--soft);color:var(--pri)}
+.pickbar{background:var(--lime);color:var(--lime-ink);font-weight:700;text-align:center;padding:10px;border-radius:12px;margin:0 16px 8px}
+.mc.ad{border:1.5px dashed var(--lime)}
+a.link{text-decoration:none}
+@media(min-width:900px){
+ .acts3{grid-template-columns:repeat(3,1fr)}
+ #h-today,#ad-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+ #h-today .mc,#ad-list .card{margin:0}
+ #v-partners{max-width:640px}
+ .pickbar{margin:0 0 10px}
+}
